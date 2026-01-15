@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Reto Puzzle - Premium</title>
+    <title>Reto Puzzle - Artem</title>
     
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="shortcut icon" type="image/png" href="favicon.png">
@@ -18,31 +18,27 @@
         }
         
         body { 
-            margin: 0; 
-            padding: 0;
+            margin: 0; padding: 0;
             font-family: 'Segoe UI', Roboto, sans-serif; 
             background: var(--purple-grad); 
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: white;
-            overflow: hidden;
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+            color: white; overflow-x: hidden;
         }
 
         header {
             text-align: center;
-            padding: 20px 10px;
+            padding: 30px 15px 10px 15px;
         }
 
-        h1 { font-size: 1.2rem; letter-spacing: 2px; margin: 0; text-transform: uppercase; color: var(--gold); }
-        .instruction { font-size: 0.9rem; opacity: 0.8; margin-top: 5px; }
+        h1 { font-size: 1.4rem; letter-spacing: 1px; margin: 0; text-transform: uppercase; color: var(--gold); line-height: 1.2; }
+        .instruction { font-size: 1rem; opacity: 0.9; margin-top: 10px; }
 
         /* Rejilla del Puzzle */
         #puzzle-ui {
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
-            gap: 8px;
+            gap: 10px;
             width: 90vw; 
             max-width: 380px; 
             background: rgba(255, 255, 255, 0.1);
@@ -51,12 +47,13 @@
             border-radius: 20px;
             border: 1px solid rgba(255,255,255,0.2);
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            margin-top: 20px;
+            margin: 20px 0;
         }
 
         .piece { 
             aspect-ratio: 1 / 1; 
             background-size: cover; 
+            background-position: center;
             border-radius: 8px; 
             border: 2px solid rgba(255,255,255,0.1); 
             transition: transform 0.2s, border 0.2s; 
@@ -65,8 +62,8 @@
         
         .selected { 
             border: 3px solid var(--whatsapp); 
-            transform: scale(1.05); 
-            box-shadow: 0 0 15px var(--whatsapp); 
+            transform: scale(1.08); 
+            box-shadow: 0 0 20px var(--whatsapp); 
             z-index: 10; 
         }
 
@@ -82,14 +79,14 @@
         .form-box { width: 85%; max-width: 320px; text-align: center; }
         input { 
             width: 100%; margin: 10px 0; padding: 15px; border-radius: 12px; 
-            border: none; font-size: 16px; box-sizing: border-box; background: #fff;
+            border: none; font-size: 16px; box-sizing: border-box; background: #fff; color: #333;
         }
         
         .btn-action { 
             background: linear-gradient(135deg, var(--whatsapp), #128C7E); 
             color: white; border: none; padding: 16px; border-radius: 50px; 
             font-weight: 800; width: 100%; cursor: pointer; margin-top: 10px;
-            text-transform: uppercase;
+            text-transform: uppercase; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
         }
 
         .modal-content { background: white; color: #333; padding: 25px; border-radius: 20px; width: 80%; max-width: 350px; }
@@ -98,16 +95,16 @@
 <body>
 
     <header>
-        <h1>RETO PUZZLE</h1>
-        <div class="instruction">Intercambia las piezas para ganar</div>
+        <h1>ARMA NUESTRO ROMPECABEZAS Y OBTÉN UN PREMIO</h1>
+        <div class="instruction">Toca dos piezas para intercambiarlas</div>
     </header>
 
     <div id="puzzle-ui"></div>
 
     <div id="step-registro">
         <div class="form-box">
-            <h2 style="color: var(--gold); margin-bottom: 10px;">¡FELICIDADES!</h2>
-            <p style="margin-bottom: 20px;">Has armado el rompecabezas. Ingresa tus datos para recibir tu premio.</p>
+            <h2 style="color: var(--gold); margin-bottom: 10px;">¡LOGRADO!</h2>
+            <p style="margin-bottom: 20px;">Ingresa tus datos para reclamar tu premio vía WhatsApp.</p>
             
             <input type="text" id="nombre" placeholder="Nombre completo">
             <input type="tel" id="whatsapp_input" placeholder="WhatsApp (10 dígitos)">
@@ -125,7 +122,7 @@
         <div class="modal-content">
             <h3 style="margin-top:0; color:#128C7E">Aviso de Privacidad</h3>
             <p style="font-size: 14px; line-height: 1.5; color: #555;">
-                Sus datos personales serán utilizados exclusivamente para la gestión y entrega de su premio a través de WhatsApp. No almacenamos su información en servidores externos ni la compartimos con terceros.
+                Sus datos serán usados únicamente para la entrega del premio. El mensaje se envía directamente por WhatsApp y no guardamos información en bases de datos externas.
             </p>
             <button class="btn-action" onclick="toggleModal(false)">ENTENDIDO</button>
         </div>
@@ -135,10 +132,9 @@
         const puzzleUI = document.querySelector('#puzzle-ui');
         const stepRegistro = document.querySelector('#step-registro');
 
-        // Nombres de archivos en la carpeta /assets/
+        // Los nombres de archivos según tu imagen (sin la carpeta assets/)
         const correctOrder = ['r1.webp', 'r2.webp', 'r3.webp', 'r4.webp', 'r5.webp', 'r6.webp', 'r7.webp', 'r8.webp', 'r9.webp'];
         
-        // Barajar piezas asegurando que no queden en el orden correcto al inicio
         let shuffledOrder = [...correctOrder].sort(() => Math.random() - 0.5);
         let firstSelected = null;
 
@@ -147,7 +143,8 @@
             shuffledOrder.forEach((imgName) => {
                 const piece = document.createElement('div');
                 piece.className = 'piece';
-                piece.style.backgroundImage = `url(assets/${imgName})`;
+                // Cambiado: se cargan directamente desde la raíz
+                piece.style.backgroundImage = `url('${imgName}')`;
                 piece.dataset.id = imgName;
                 piece.onclick = () => handlePieceClick(piece);
                 puzzleUI.appendChild(piece);
@@ -162,7 +159,6 @@
                 firstSelected.classList.remove('selected');
                 firstSelected = null;
             } else {
-                // Intercambio de imágenes e IDs
                 const tempBg = firstSelected.style.backgroundImage;
                 const tempId = firstSelected.dataset.id;
                 
@@ -185,7 +181,7 @@
             if (JSON.stringify(playerOrder) === JSON.stringify(correctOrder)) {
                 setTimeout(() => {
                     stepRegistro.style.display = 'flex';
-                }, 600);
+                }, 500);
             }
         }
 
@@ -198,20 +194,13 @@
             const tel = document.getElementById('whatsapp_input').value;
             const folio = Math.floor(1000 + Math.random() * 9000);
 
-            if(!nom || tel.length < 10) { 
-                alert("Por favor completa tus datos correctamente."); 
-                return; 
-            }
-            if(!document.getElementById('aviso').checked) { 
-                alert("Debes aceptar el aviso de privacidad."); 
-                return; 
-            }
+            if(!nom || tel.length < 10) { alert("Completa tus datos correctamente."); return; }
+            if(!document.getElementById('aviso').checked) { alert("Acepta el aviso de privacidad."); return; }
 
-            const msg = encodeURIComponent(`*¡NUEVO GANADOR DEL PUZZLE!*\n\n👤 Nombre: ${nom}\n📱 WhatsApp: ${tel}\n🆔 Folio: #PZ-${folio}\n\nEl cliente ha completado el rompecabezas exitosamente.`);
+            const msg = encodeURIComponent(`*RECLAMO PREMIO PUZZLE*\n👤 Nombre: ${nom}\n📱 Tel: ${tel}\n🆔 Folio: #PZ-${folio}\n\n¡He completado el reto!`);
             window.location.href = `https://wa.me/5215542492026?text=${msg}`;
         }
 
-        // Arrancar juego al cargar
         window.onload = initPuzzle;
     </script>
 </body>
