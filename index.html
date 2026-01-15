@@ -13,7 +13,6 @@
         :root { 
             --whatsapp: #25D366; 
             --gold: #FFD700; 
-            --deep-bg: #0f0c29;
             --purple-grad: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
         }
         
@@ -28,35 +27,52 @@
 
         header {
             text-align: center;
-            padding: 30px 15px 10px 15px;
+            /* Aumentamos el espacio superior considerablemente */
+            padding: 60px 20px 20px 20px; 
         }
 
-        h1 { font-size: 1.4rem; letter-spacing: 1px; margin: 0; text-transform: uppercase; color: var(--gold); line-height: 1.2; }
-        .instruction { font-size: 1rem; opacity: 0.9; margin-top: 10px; }
+        h1 { 
+            font-size: 1.5rem; 
+            letter-spacing: 1px; 
+            margin: 0; 
+            text-transform: uppercase; 
+            color: var(--gold); 
+            line-height: 1.3;
+            max-width: 320px;
+        }
+
+        .instruction { 
+            font-size: 1.1rem; 
+            opacity: 0.9; 
+            margin-top: 15px; 
+            font-weight: 300;
+        }
 
         /* Rejilla del Puzzle */
         #puzzle-ui {
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
             gap: 10px;
-            width: 90vw; 
+            width: 88vw; 
             max-width: 380px; 
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px); 
             padding: 15px; 
             border-radius: 20px;
             border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            margin: 20px 0;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            /* Espacio extra entre el texto y el puzzle */
+            margin-top: 40px; 
+            margin-bottom: 40px;
         }
 
         .piece { 
             aspect-ratio: 1 / 1; 
             background-size: cover; 
             background-position: center;
-            border-radius: 8px; 
+            border-radius: 10px; 
             border: 2px solid rgba(255,255,255,0.1); 
-            transition: transform 0.2s, border 0.2s; 
+            transition: all 0.2s ease; 
             cursor: pointer; 
         }
         
@@ -77,16 +93,18 @@
         }
 
         .form-box { width: 85%; max-width: 320px; text-align: center; }
+        
         input { 
-            width: 100%; margin: 10px 0; padding: 15px; border-radius: 12px; 
-            border: none; font-size: 16px; box-sizing: border-box; background: #fff; color: #333;
+            width: 100%; margin: 10px 0; padding: 16px; border-radius: 12px; 
+            border: none; font-size: 16px; box-sizing: border-box; 
+            background: #fff; color: #333;
         }
         
         .btn-action { 
             background: linear-gradient(135deg, var(--whatsapp), #128C7E); 
-            color: white; border: none; padding: 16px; border-radius: 50px; 
-            font-weight: 800; width: 100%; cursor: pointer; margin-top: 10px;
-            text-transform: uppercase; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+            color: white; border: none; padding: 18px; border-radius: 50px; 
+            font-weight: 800; width: 100%; cursor: pointer; margin-top: 15px;
+            text-transform: uppercase; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
         }
 
         .modal-content { background: white; color: #333; padding: 25px; border-radius: 20px; width: 80%; max-width: 350px; }
@@ -103,26 +121,26 @@
 
     <div id="step-registro">
         <div class="form-box">
-            <h2 style="color: var(--gold); margin-bottom: 10px;">¡LOGRADO!</h2>
-            <p style="margin-bottom: 20px;">Ingresa tus datos para reclamar tu premio vía WhatsApp.</p>
+            <h2 style="color: var(--gold); margin-bottom: 10px; font-size: 2rem;">¡LOGRADO!</h2>
+            <p style="margin-bottom: 25px; line-height: 1.4;">Has armado el rompecabezas con éxito. Ingresa tus datos para reclamar tu premio.</p>
             
             <input type="text" id="nombre" placeholder="Nombre completo">
             <input type="tel" id="whatsapp_input" placeholder="WhatsApp (10 dígitos)">
             
-            <div style="font-size: 12px; margin: 15px 0; display: flex; align-items: flex-start; gap: 8px; text-align: left;">
-                <input type="checkbox" id="aviso" style="width: 18px; height: 18px;"> 
+            <div style="font-size: 13px; margin: 15px 0; display: flex; align-items: flex-start; gap: 10px; text-align: left;">
+                <input type="checkbox" id="aviso" style="width: 20px; height: 20px; flex-shrink: 0;"> 
                 <label for="aviso">Acepto el <a href="javascript:void(0)" onclick="toggleModal(true)" style="color: var(--whatsapp); font-weight: bold;">aviso de privacidad</a>.</label>
             </div>
             
-            <button class="btn-action" onclick="enviarWhatsApp()">RECLAMAR PREMIO</button>
+            <button class="btn-action" onclick="enviarWhatsApp()">RECLAMAR MI PREMIO</button>
         </div>
     </div>
 
     <div id="modal-priv" class="modal-overlay">
         <div class="modal-content">
             <h3 style="margin-top:0; color:#128C7E">Aviso de Privacidad</h3>
-            <p style="font-size: 14px; line-height: 1.5; color: #555;">
-                Sus datos serán usados únicamente para la entrega del premio. El mensaje se envía directamente por WhatsApp y no guardamos información en bases de datos externas.
+            <p style="font-size: 14px; line-height: 1.6; color: #555;">
+                Sus datos serán usados únicamente para la gestión de entrega del premio. La información se envía de forma segura vía WhatsApp y no se almacena en ninguna base de datos externa.
             </p>
             <button class="btn-action" onclick="toggleModal(false)">ENTENDIDO</button>
         </div>
@@ -132,7 +150,6 @@
         const puzzleUI = document.querySelector('#puzzle-ui');
         const stepRegistro = document.querySelector('#step-registro');
 
-        // Los nombres de archivos según tu imagen (sin la carpeta assets/)
         const correctOrder = ['r1.webp', 'r2.webp', 'r3.webp', 'r4.webp', 'r5.webp', 'r6.webp', 'r7.webp', 'r8.webp', 'r9.webp'];
         
         let shuffledOrder = [...correctOrder].sort(() => Math.random() - 0.5);
@@ -143,7 +160,6 @@
             shuffledOrder.forEach((imgName) => {
                 const piece = document.createElement('div');
                 piece.className = 'piece';
-                // Cambiado: se cargan directamente desde la raíz
                 piece.style.backgroundImage = `url('${imgName}')`;
                 piece.dataset.id = imgName;
                 piece.onclick = () => handlePieceClick(piece);
@@ -181,7 +197,7 @@
             if (JSON.stringify(playerOrder) === JSON.stringify(correctOrder)) {
                 setTimeout(() => {
                     stepRegistro.style.display = 'flex';
-                }, 500);
+                }, 600);
             }
         }
 
@@ -194,10 +210,10 @@
             const tel = document.getElementById('whatsapp_input').value;
             const folio = Math.floor(1000 + Math.random() * 9000);
 
-            if(!nom || tel.length < 10) { alert("Completa tus datos correctamente."); return; }
-            if(!document.getElementById('aviso').checked) { alert("Acepta el aviso de privacidad."); return; }
+            if(!nom || tel.length < 10) { alert("Por favor, ingresa tus datos completos."); return; }
+            if(!document.getElementById('aviso').checked) { alert("Debes aceptar el aviso de privacidad."); return; }
 
-            const msg = encodeURIComponent(`*RECLAMO PREMIO PUZZLE*\n👤 Nombre: ${nom}\n📱 Tel: ${tel}\n🆔 Folio: #PZ-${folio}\n\n¡He completado el reto!`);
+            const msg = encodeURIComponent(`*¡NUEVO GANADOR DEL PUZZLE!*\n\n👤 Nombre: ${nom}\n📱 Tel: ${tel}\n🆔 Folio: #PZ-${folio}\n\nEl cliente ha completado el rompecabezas exitosamente.`);
             window.location.href = `https://wa.me/5215542492026?text=${msg}`;
         }
 
